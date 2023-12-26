@@ -86,6 +86,7 @@ if __name__ == "__main__":
     parser.add_argument("--start-idx", type=int, default=0)
     parser.add_argument("--end-idx", type=int, default=1000000)
     parser.add_argument("--step-idx", type=int, default=1)
+    parser.add_argument("--device", type=int, default=0)
     args = parser.parse_args()
 
     # Load task registry
