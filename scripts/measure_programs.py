@@ -27,11 +27,11 @@ from common import (load_and_register_tasks,
     get_measure_record_filename, get_to_measure_filename)
 
 def make_measurer(run_timeout, repeat, number, enable_cpu_cache_flush,
-                  verbose, log_filename):
+                  verbose, log_filename, device):
     builder = auto_scheduler.measure.LocalBuilder()
     runner = auto_scheduler.measure.LocalRunner(
         timeout=run_timeout, repeat=repeat, number=number,
-        enable_cpu_cache_flush=enable_cpu_cache_flush)
+        enable_cpu_cache_flush=enable_cpu_cache_flush, device=device)
     measurer = auto_scheduler.measure.ProgramMeasurer(
 	builder,
 	runner,
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
         # Set measurement arguments
         measurer_kwargs = {
-            "run_timeout": 5,
+            "run_timeout": 100,
             "number": 1,
             "enable_cpu_cache_flush": True,
             "verbose": 1,
@@ -116,6 +116,7 @@ if __name__ == "__main__":
             measurer_kwargs['repeat'] = 10
         else:
             measurer_kwargs['repeat'] = 8
+        measurer_kwargs['device'] = args.device
 
         # Run measurement
         task_key = (task.workload_key, str(task.target.kind))
