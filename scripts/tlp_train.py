@@ -730,7 +730,7 @@ def set_seed(seed):
     torch.backends.cudnn.deterministic = True
 
 
-set_seed(0)
+set_seed(22)
 
 
 if __name__ == "__main__":
