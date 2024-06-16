@@ -17,6 +17,11 @@ from tvm import auto_scheduler
 from common import (convert_to_nhwc, dtype2torch, NETWORK_INFO_FOLDER,
     get_relay_ir_filename, get_task_info_filename)
 
+def get_network_task(network_key, target):
+    task_info_filename = get_task_info_filename(network_key, target)
+    tasks, task_weights = pickle.load(open(task_info_filename, "rb"))
+    return tasks, task_weights
+
 
 def get_network_with_key(network_key):
     name, args = network_key

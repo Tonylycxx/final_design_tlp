@@ -12,7 +12,7 @@ from tvm import relay, auto_scheduler
 import tvm.contrib.graph_runtime as runtime
 from tvm.auto_scheduler.utils import to_str_round
 
-from dump_network_info import get_network_with_key
+from dump_network_info import get_network_with_key, get_network_task
 from common import str2bool, log_line, BenchmarkRecord
 
 from search import random_search, local_search, default_search
@@ -20,7 +20,7 @@ from tlp_train import *
 from mtl_tlp_train import MTLTLPAttentionModule
 
 
-def get_network(network_args):
+def get_network(network_args, target):
     name, batch_size = network_args['network'], network_args['batch_size']
     if name in ['resnet_18', 'resnet_50', 'mobilenet_v2', 'mobilenet_v3',
                 'wide_resnet_50', 'resnext_50', 'densenet_121', 'vgg_16']:
@@ -34,7 +34,8 @@ def get_network(network_args):
     else:
         raise ValueError("Invalid network: " + name)
 
-    return get_network_with_key(network_key)
+    # return get_network_with_key(network_key)
+    return get_network_task(network_key, target)
 
 
 def get_tuning_option(tuning_args, target):
@@ -65,7 +66,10 @@ def get_tuning_option(tuning_args, target):
 
 
 def tune_and_evaluate(network_args, tuning_args, target, target_host, result_file, transfer_tune, search_type, max_line_len=25, max_vec_len=22):
-    mod, params, inputs = get_network(network_args)
+    # mod, params, inputs = get_network(network_args)
+    
+    # Extract search tasks
+    tasks, task_weights = get_network(network_args, target)
 
     # Do auto-tuning
     if not tuning_args['eval_only']:
@@ -75,7 +79,7 @@ def tune_and_evaluate(network_args, tuning_args, target, target_host, result_fil
             os.system("rm -rf %s" % log_file)
 
         # Extract search tasks
-        tasks, task_weights = auto_scheduler.extract_tasks(mod["main"], params, target)
+        # tasks, task_weights = auto_scheduler.extract_tasks(mod["main"], params, target)
 
         for idx, task in enumerate(tasks):
             print(
