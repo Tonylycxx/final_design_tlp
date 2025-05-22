@@ -93,7 +93,7 @@ def make_search_policies(
 
     if isinstance(search_policy, str):
         policy_type, model_type = search_policy.split(".")
-        if model_type in ['xgb', 'xgb-no-update', 'mlp', 'mlp-no-update', 'tab', 'tab-no-update', 'tlp-no-update']:
+        if model_type in ['xgb', 'xgb-no-update', 'mlp', 'mlp-no-update', 'tab', 'tab-no-update', 'slm-no-update']:
             if model_type == 'xgb-no-update' or model_type == 'mlp-no-update' or model_type == 'tab-no-update':
                 disable_cost_model_update = True
             if model_type in ['xgb', 'xgb-no-update']:
@@ -107,7 +107,7 @@ def make_search_policies(
                     disable_update=disable_cost_model_update,
                     few_shot_learning=few_shot_learning
                 )
-            elif model_type in ['tlp-no-update']:
+            elif model_type in ['slm-no-update']:
                 cost_model = TLPModel(target=tasks[0].target, max_line_len=max_line_len, max_vec_len=max_vec_len)
             
             else:
