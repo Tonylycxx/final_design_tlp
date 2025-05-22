@@ -646,16 +646,18 @@ def _timed_func(inp_serialized, build_func, verbose):
     if error_no == 0:
         dirname = tempfile.mkdtemp()
         filename = os.path.join(dirname, "tmp_func." + build_func.output_format)
+        print(filename)
 
         try:
             with transform.PassContext():
                 func = build_module.build(
                     sch, args, target=task.target, target_host=task.target_host
                 )
+            print("OK")
             func.export_library(filename, build_func)
         # pylint: disable=broad-except
-        except Exception:
-            print(Exception)
+        except Exception as e:
+            print(type(e).__name__, str(e))
             error_no = MeasureErrorNo.COMPILE_HOST
             error_msg = make_traceback_info()
     else:
