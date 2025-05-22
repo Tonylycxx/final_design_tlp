@@ -571,7 +571,7 @@ class LocalRPCMeasureContext:
         from tvm.rpc.tracker import Tracker
         from tvm.rpc.server import Server
 
-        ctx = tvm.context("cuda", 2)
+        ctx = tvm.context("cuda", 0)
         if ctx.exist:
             cuda_arch = "sm_" + "".join(ctx.compute_version.split("."))
             set_cuda_target_arch(cuda_arch)
