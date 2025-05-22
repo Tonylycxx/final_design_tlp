@@ -36,5 +36,5 @@ class TLPModel(PythonBasedModel):
 
     def load(self, file_name: str):
         with open(file_name, 'rb') as f:
-            self.model = pickle.load(f).module.to('cuda:0')
+            self.model = pickle.load(f).module.to('cpu')
         self.model.eval()
