@@ -643,6 +643,7 @@ def _timed_func(inp_serialized, build_func, verbose):
         error_no = MeasureErrorNo.INSTANTIATION_ERROR
         error_msg = make_traceback_info()
 
+    print(error_no)
     if error_no == 0:
         dirname = tempfile.mkdtemp()
         filename = os.path.join(dirname, "tmp_func." + build_func.output_format)
