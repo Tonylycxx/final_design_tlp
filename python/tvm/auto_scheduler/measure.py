@@ -655,12 +655,11 @@ def _timed_func(inp_serialized, build_func, verbose):
             func.export_library(filename, build_func)
         # pylint: disable=broad-except
         except Exception:
+            print(Exception)
             error_no = MeasureErrorNo.COMPILE_HOST
             error_msg = make_traceback_info()
     else:
         filename = ""
-
-    print(error_no)
 
     if verbose >= 1:
         if error_no == MeasureErrorNo.NO_ERROR:
